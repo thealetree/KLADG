@@ -18,6 +18,15 @@ export default function RadioPlayer({ player, artMap, rating, onRate }) {
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0
   const artFilename = artMap[currentTrack.artId]
 
+  function handleShare() {
+    const url = `${window.location.origin}/#/track/${currentTrack.id}`
+    if (navigator.share) {
+      navigator.share({ title: currentTrack.title, text: `Listen to "${currentTrack.title}" on KLADG Radio`, url })
+    } else {
+      navigator.clipboard.writeText(url)
+    }
+  }
+
   function handleProgressClick(e) {
     const rect = progressRef.current.getBoundingClientRect()
     const fraction = (e.clientX - rect.left) / rect.width
@@ -75,7 +84,7 @@ export default function RadioPlayer({ player, artMap, rating, onRate }) {
           <span className="tabular">{formatTime(duration)}</span>
         </div>
 
-        <button className="radio-share-btn" aria-label="Share">
+        <button className="radio-share-btn" onClick={handleShare} aria-label="Share">
           <Share2 size={12} strokeWidth={1} />
           <span>SHARE THIS TRACK</span>
         </button>
