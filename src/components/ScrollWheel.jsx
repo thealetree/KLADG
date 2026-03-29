@@ -147,7 +147,8 @@ export default function ScrollWheel({ tracks, artMap, ratings, playCounts, onSel
     const isFocused = Math.abs(offset) < ITEM_HEIGHT / 2
 
     const yPos = offset - ITEM_HEIGHT / 2
-    const scaleX = 1 - Math.abs(clamped) * 0.15
+    // Cosine curve for scaleX: items near center bulge wider (cylinder barrel effect)
+    const scaleX = 0.85 + 0.15 * Math.cos(Math.abs(clamped) * Math.PI / 2)
 
     visibleItems.push({
       track: tracks[i],
