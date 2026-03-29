@@ -201,9 +201,7 @@ export default function ScrollWheel({ tracks, artMap, ratings, playCounts, onSel
                 size="sm"
               />
             </div>
-            {playCounts && playCounts.getCount(track.id) > 0 && (
-              <span className="wheel-item-plays">{playCounts.getCount(track.id)}</span>
-            )}
+            <span className="wheel-item-plays">{playCounts ? playCounts.getCount(track.id) : 0}</span>
             <button
               className="wheel-item-play"
               onClick={(e) => { e.stopPropagation(); onSelect(track.id) }}

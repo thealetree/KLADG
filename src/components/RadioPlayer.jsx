@@ -96,9 +96,7 @@ export default function RadioPlayer({ player, artMap, rating, communityRating, o
             <Share2 size={12} strokeWidth={1} />
             <span>{copied ? 'URL COPIED TO CLIPBOARD!' : 'SHARE THIS TRACK'}</span>
           </button>
-          {playCount > 0 && (
-            <span className="radio-play-count">{playCount} {playCount === 1 ? 'play' : 'plays'}</span>
-          )}
+          <span className="radio-play-count">PLAYS: {playCount}</span>
         </div>
       </div>
     </div>
