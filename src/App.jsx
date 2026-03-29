@@ -12,6 +12,7 @@ import ScrollWheel from './components/ScrollWheel'
 import SearchBar from './components/SearchBar'
 import SortToggle from './components/SortToggle'
 import InstallPrompt from './components/InstallPrompt'
+import UpdateBanner from './components/UpdateBanner'
 import tracks from './data/tracks.json'
 import artData from './data/art.json'
 
@@ -214,6 +215,7 @@ export default function App() {
         )}
       </section>
       <InstallPrompt />
+      <UpdateBanner />
     </div>
   )
 }
