@@ -205,7 +205,7 @@ export default function ScrollWheel({ tracks, artMap, ratings, onSelect, onAddTo
               onClick={(e) => { e.stopPropagation(); onAddToQueue(track) }}
               aria-label="Add to queue"
             >
-              <Plus size={16} strokeWidth={1} />
+              <Plus size={16} strokeWidth={2} />
             </button>
           </div>
         ))}

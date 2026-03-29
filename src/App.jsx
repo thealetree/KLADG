@@ -25,13 +25,6 @@ export default function App() {
   const [shuffledTracks] = useState(() => shuffle(tracks))
   const [randomOrder, setRandomOrder] = useState(shuffledTracks)
 
-  // Stable dequeue ref so audio player doesn't re-subscribe listeners
-  const dequeueRef = useRef(queue.dequeue)
-  dequeueRef.current = queue.dequeue
-  const stableDequeue = useCallback(() => dequeueRef.current(), [])
-
-  const player = useAudioPlayer(tracks, stableDequeue)
-
   const artMap = useMemo(() => {
     const map = {}
     for (const art of artData) {
@@ -39,6 +32,13 @@ export default function App() {
     }
     return map
   }, [])
+
+  // Stable dequeue ref so audio player doesn't re-subscribe listeners
+  const dequeueRef = useRef(queue.dequeue)
+  dequeueRef.current = queue.dequeue
+  const stableDequeue = useCallback(() => dequeueRef.current(), [])
+
+  const player = useAudioPlayer(tracks, stableDequeue, artMap)
 
   // Re-shuffle when switching back to random mode
   useEffect(() => {
@@ -75,44 +75,6 @@ export default function App() {
   const handleSelectTrack = useCallback((trackId) => {
     player.loadTrack(trackId, true)
   }, [player.loadTrack])
-
-  // Media Session API — lock screen controls & background playback
-  useEffect(() => {
-    if (!('mediaSession' in navigator) || !player.currentTrack) return
-
-    const artFile = artMap[player.currentTrack.artId]
-    const artworkUrl = artFile ? `${window.location.origin}/art/${artFile}` : undefined
-
-    navigator.mediaSession.metadata = new MediaMetadata({
-      title: player.currentTrack.title,
-      artist: 'KLADG Radio',
-      ...(artworkUrl && {
-        artwork: [
-          { src: artworkUrl, sizes: '500x500', type: 'image/jpeg' },
-        ],
-      }),
-    })
-
-    navigator.mediaSession.setActionHandler('play', player.play)
-    navigator.mediaSession.setActionHandler('pause', player.pause)
-    navigator.mediaSession.setActionHandler('previoustrack', player.skipPrev)
-    navigator.mediaSession.setActionHandler('nexttrack', player.skipNext)
-    navigator.mediaSession.setActionHandler('seekto', (details) => {
-      if (details.seekTime != null) player.seek(details.seekTime)
-    })
-  }, [player.currentTrack, player.play, player.pause, player.skipPrev, player.skipNext, player.seek, artMap])
-
-  // Update Media Session position state
-  useEffect(() => {
-    if (!('mediaSession' in navigator) || !player.currentTrack) return
-    if (player.duration > 0) {
-      navigator.mediaSession.setPositionState({
-        duration: player.duration,
-        playbackRate: 1,
-        position: Math.min(player.currentTime, player.duration),
-      })
-    }
-  }, [player.currentTrack, player.currentTime, player.duration])
 
   const currentRating = player.currentTrack
     ? ratings.getRating(player.currentTrack.id)

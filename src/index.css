@@ -553,7 +553,7 @@ input::placeholder {
 }
 
 .wheel-item-add {
-  opacity: 0.3;
+  opacity: 0.5;
   flex-shrink: 0;
   padding: 4px;
 }
