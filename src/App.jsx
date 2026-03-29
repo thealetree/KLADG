@@ -10,6 +10,7 @@ import QueueView from './components/QueueView'
 import ScrollWheel from './components/ScrollWheel'
 import SearchBar from './components/SearchBar'
 import SortToggle from './components/SortToggle'
+import InstallPrompt from './components/InstallPrompt'
 import tracks from './data/tracks.json'
 import artData from './data/art.json'
 
@@ -188,6 +189,7 @@ export default function App() {
           </div>
         )}
       </section>
+      <InstallPrompt />
     </div>
   )
 }

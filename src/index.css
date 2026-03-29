@@ -595,6 +595,61 @@ input::placeholder {
   background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
 }
 
+/* ── Install Prompt ── */
+.install-prompt-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 24px;
+}
+
+.install-prompt {
+  background: #111;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 24px;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+}
+
+.install-prompt-title {
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.install-prompt-instructions {
+  font-size: 0.8rem;
+  font-weight: 300;
+  opacity: 0.7;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.install-prompt-icon {
+  display: inline-flex;
+  vertical-align: middle;
+  margin: 0 2px;
+}
+
+.install-prompt-dismiss {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 10px 32px;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+.install-prompt-dismiss:hover {
+  border-color: rgba(255, 255, 255, 0.6) !important;
+}
+
 /* ── Mobile ── */
 @media (max-width: 768px) {
   .app {

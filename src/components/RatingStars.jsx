@@ -11,7 +11,10 @@ export default function RatingStars({ rating = 0, communityRating = 0, onRate, s
         const isCommunity = n <= communityRating && !isMyRating
 
         const fill = isMyRating ? '#fff' : isCommunity ? 'rgba(255,255,255,0.3)' : 'none'
-        const stroke = isMyRating ? '#fff' : isCommunity ? 'rgba(255,255,255,0.3)' : undefined
+        const starProps = { size: iconSize, strokeWidth: 1, fill }
+        if (isMyRating || isCommunity) {
+          starProps.stroke = isMyRating ? '#fff' : 'rgba(255,255,255,0.3)'
+        }
 
         return isInteractive ? (
           <button
@@ -22,11 +25,11 @@ export default function RatingStars({ rating = 0, communityRating = 0, onRate, s
             }}
             aria-label={`Rate ${n}`}
           >
-            <Star size={iconSize} strokeWidth={1} fill={fill} stroke={stroke} />
+            <Star {...starProps} />
           </button>
         ) : (
           <span key={n} style={{ display: 'flex' }}>
-            <Star size={iconSize} strokeWidth={1} fill={fill} stroke={stroke} />
+            <Star {...starProps} />
           </span>
         )
       })}
