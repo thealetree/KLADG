@@ -177,6 +177,7 @@ export default function App() {
               tracks={filteredTracks}
               artMap={artMap}
               ratings={ratings}
+              playCounts={playCounts}
               onSelect={handleSelectTrack}
               onAddToQueue={queue.add}
               onRate={ratings.rate}

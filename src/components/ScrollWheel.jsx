@@ -10,7 +10,7 @@ const SNAP_THRESHOLD = 0.5
 const SNAP_STIFFNESS = 0.12
 const RUBBER_BAND = 0.3
 
-export default function ScrollWheel({ tracks, artMap, ratings, onSelect, onAddToQueue, onRate }) {
+export default function ScrollWheel({ tracks, artMap, ratings, playCounts, onSelect, onAddToQueue, onRate }) {
   const containerRef = useRef(null)
   const scrollRef = useRef({ y: 0, velocity: 0 })
   const dragging = useRef(false)
@@ -201,6 +201,9 @@ export default function ScrollWheel({ tracks, artMap, ratings, onSelect, onAddTo
                 size="sm"
               />
             </div>
+            {playCounts && playCounts.getCount(track.id) > 0 && (
+              <span className="wheel-item-plays">{playCounts.getCount(track.id)}</span>
+            )}
             <button
               className="wheel-item-play"
               onClick={(e) => { e.stopPropagation(); onSelect(track.id) }}

@@ -574,6 +574,14 @@ input::placeholder {
   flex-shrink: 0;
 }
 
+.wheel-item-plays {
+  opacity: 0.25;
+  font-size: 0.5rem;
+  letter-spacing: 0.05em;
+  font-weight: 300;
+  flex-shrink: 0;
+}
+
 .wheel-item-play {
   opacity: 0.3;
   flex-shrink: 0;
