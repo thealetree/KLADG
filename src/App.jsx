@@ -6,7 +6,7 @@ import { useRatings } from './hooks/useRatings'
 import { usePlayCounts } from './hooks/usePlayCounts'
 import { useOfflineCache } from './hooks/useOfflineCache'
 import { shuffle } from './utils/shuffle'
-import { ChevronUp, ChevronDown } from 'lucide-react'
+import { ChevronUp, ChevronDown, Download } from 'lucide-react'
 import RadioPlayer from './components/RadioPlayer'
 import QueueView from './components/QueueView'
 import ScrollWheel from './components/ScrollWheel'
@@ -140,6 +140,7 @@ export default function App() {
           communityRating={currentCommunityRating}
           onRate={handleRateCurrentTrack}
           playCount={currentPlayCount}
+          offlineCache={offlineCache}
         />
       </section>
 
@@ -176,6 +177,16 @@ export default function App() {
             <div className="browse-controls">
               <SearchBar value={search} onChange={setSearch} />
               <SortToggle mode={sortMode} onChange={setSortMode} />
+              {offlineCache && (
+                <button
+                  className="download-all-btn"
+                  onClick={() => offlineCache.downloadAll(filteredTracks)}
+                  aria-label="Download all tracks for offline"
+                >
+                  <Download size={12} strokeWidth={2} />
+                  <span>Download All</span>
+                </button>
+              )}
             </div>
             <ScrollWheel
               tracks={filteredTracks}

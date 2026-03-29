@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
-import { Plus, Play, Download, Check } from 'lucide-react'
+import { Plus, Play, CloudDownload } from 'lucide-react'
 import RatingStars from './RatingStars'
 
 const ITEM_HEIGHT = 52
@@ -216,10 +216,7 @@ export default function ScrollWheel({ tracks, artMap, ratings, playCounts, offli
                 onClick={(e) => { e.stopPropagation(); offlineCache.downloadTrack(track) }}
                 aria-label={offlineCache.isCached(track.id) ? 'Available offline' : 'Download for offline'}
               >
-                {offlineCache.isCached(track.id)
-                  ? <Check size={12} strokeWidth={2.5} />
-                  : <Download size={12} strokeWidth={2} />
-                }
+                <CloudDownload size={13} strokeWidth={1.5} fill={offlineCache.isCached(track.id) ? 'currentColor' : 'none'} />
               </button>
             )}
             <button

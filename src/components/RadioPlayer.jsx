@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { SkipBack, Play, Pause, SkipForward, Share2, Repeat } from 'lucide-react'
+import { SkipBack, Play, Pause, SkipForward, Share2, Repeat, CloudDownload } from 'lucide-react'
 import RatingStars from './RatingStars'
 
 function formatTime(seconds) {
@@ -9,7 +9,7 @@ function formatTime(seconds) {
   return `${m}:${s.toString().padStart(2, '0')}`
 }
 
-export default function RadioPlayer({ player, artMap, rating, communityRating, onRate, playCount }) {
+export default function RadioPlayer({ player, artMap, rating, communityRating, onRate, playCount, offlineCache }) {
   const progressRef = useRef(null)
   const [copied, setCopied] = useState(false)
   const { currentTrack, isPlaying, currentTime, duration, toggle, skipNext, skipPrev, seek, looping, toggleLoop } = player
@@ -92,6 +92,15 @@ export default function RadioPlayer({ player, artMap, rating, communityRating, o
         </div>
 
         <div className="radio-share-row">
+          {offlineCache && (
+            <button
+              className={`radio-download-btn ${offlineCache.isCached(currentTrack.id) ? 'cached' : ''} ${offlineCache.isDownloading(currentTrack.id) ? 'downloading' : ''}`}
+              onClick={() => offlineCache.downloadTrack(currentTrack)}
+              aria-label={offlineCache.isCached(currentTrack.id) ? 'Available offline' : 'Download for offline'}
+            >
+              <CloudDownload size={13} strokeWidth={1.5} fill={offlineCache.isCached(currentTrack.id) ? 'currentColor' : 'none'} />
+            </button>
+          )}
           <button className="radio-share-btn" onClick={handleShare} aria-label="Share">
             <Share2 size={12} strokeWidth={1.5} />
             <span>{copied ? 'URL COPIED TO CLIPBOARD!' : 'SHARE THIS TRACK'}</span>

@@ -55,5 +55,14 @@ export function useOfflineCache(tracks, artMap) {
   const isCached = useCallback((trackId) => cached.has(trackId), [cached])
   const isDownloading = useCallback((trackId) => downloading.has(trackId), [downloading])
 
-  return { isCached, isDownloading, downloadTrack }
+  const downloadAll = useCallback(async (trackList) => {
+    if (!('caches' in window)) return
+    for (const track of trackList) {
+      if (!cached.has(track.id) && !downloading.has(track.id)) {
+        await downloadTrack(track)
+      }
+    }
+  }, [cached, downloading, downloadTrack])
+
+  return { isCached, isDownloading, downloadTrack, downloadAll }
 }
