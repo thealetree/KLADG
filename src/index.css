@@ -149,6 +149,26 @@ input::placeholder {
   text-underline-offset: 3px;
 }
 
+.about-donate {
+  margin-top: 24px;
+  border-top: var(--border-dim);
+  padding-top: 20px;
+}
+
+.about-donate-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-bottom: 12px;
+}
+
+.about-kofi-wrap {
+  border-radius: 4px;
+  overflow: hidden;
+  max-width: 400px;
+}
+
 /* ── Radio Header ── */
 .radio-header {
   font-weight: 400;

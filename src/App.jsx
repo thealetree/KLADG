@@ -169,6 +169,17 @@ export default function App() {
             <p>These are all original tracks made between 2019 and 2025 by Van, with a couple collabs with Josie. Everything is original, made mostly while cracking up imagining how others would receive these batshit tracks with a mixture of nonsense and real lyrics and psycho beats. All artwork is Van original as well. Everything was made without a hint of AI.</p>
             <p>Van hasn't been making music or visual art since AI generation hit the world… Maybe he should get back to it?</p>
             <p>Thanks for listening and reach out if you want via the submission form at <a href="https://wanderingwojo.com" target="_blank" rel="noopener noreferrer">wanderingwojo.com</a></p>
+            <div className="about-donate">
+              <p className="about-donate-label">Buy Van a coffee</p>
+              <div className="about-kofi-wrap">
+                <iframe
+                  src="https://ko-fi.com/wanderingwojo/?hidefeed=true&widget=true&embed=true&preview=true"
+                  style={{ border: 'none', width: '100%', background: 'transparent' }}
+                  height="712"
+                  title="Support on Ko-fi"
+                />
+              </div>
+            </div>
           </div>
         )}
       </section>
