@@ -248,6 +248,15 @@ input::placeholder {
   margin-bottom: 0;
 }
 
+.radio-loop-btn {
+  opacity: 0.25;
+  margin-left: auto;
+}
+
+.radio-loop-btn.active {
+  opacity: 1;
+}
+
 .radio-play-btn {
   display: flex;
   align-items: center;
@@ -298,6 +307,12 @@ input::placeholder {
   margin-bottom: 0;
 }
 
+.radio-share-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .radio-share-btn {
   opacity: 0.25;
   display: flex;
@@ -310,6 +325,13 @@ input::placeholder {
 
 .radio-share-btn:hover {
   opacity: 0.6;
+}
+
+.radio-play-count {
+  opacity: 0.2;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  font-weight: 300;
 }
 
 /* ── Rating Stars ── */
@@ -550,6 +572,16 @@ input::placeholder {
 
 .wheel-item-rating {
   flex-shrink: 0;
+}
+
+.wheel-item-play {
+  opacity: 0.3;
+  flex-shrink: 0;
+  padding: 4px;
+}
+
+.wheel-item-play:hover {
+  opacity: 0.8;
 }
 
 .wheel-item-add {

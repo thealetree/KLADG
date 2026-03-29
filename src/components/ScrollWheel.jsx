@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
-import { Plus } from 'lucide-react'
+import { Plus, Play } from 'lucide-react'
 import RatingStars from './RatingStars'
 
 const ITEM_HEIGHT = 52
@@ -201,6 +201,13 @@ export default function ScrollWheel({ tracks, artMap, ratings, onSelect, onAddTo
                 size="sm"
               />
             </div>
+            <button
+              className="wheel-item-play"
+              onClick={(e) => { e.stopPropagation(); onSelect(track.id) }}
+              aria-label="Play track"
+            >
+              <Play size={14} strokeWidth={2} />
+            </button>
             <button
               className="wheel-item-add"
               onClick={(e) => { e.stopPropagation(); onAddToQueue(track) }}

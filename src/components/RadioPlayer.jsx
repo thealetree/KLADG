@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { SkipBack, Play, Pause, SkipForward, Share2 } from 'lucide-react'
+import { SkipBack, Play, Pause, SkipForward, Share2, Repeat } from 'lucide-react'
 import RatingStars from './RatingStars'
 
 function formatTime(seconds) {
@@ -9,10 +9,10 @@ function formatTime(seconds) {
   return `${m}:${s.toString().padStart(2, '0')}`
 }
 
-export default function RadioPlayer({ player, artMap, rating, communityRating, onRate }) {
+export default function RadioPlayer({ player, artMap, rating, communityRating, onRate, playCount }) {
   const progressRef = useRef(null)
   const [copied, setCopied] = useState(false)
-  const { currentTrack, isPlaying, currentTime, duration, toggle, skipNext, skipPrev, seek } = player
+  const { currentTrack, isPlaying, currentTime, duration, toggle, skipNext, skipPrev, seek, looping, toggleLoop } = player
 
   if (!currentTrack) return null
 
@@ -75,6 +75,9 @@ export default function RadioPlayer({ player, artMap, rating, communityRating, o
           <button onClick={skipNext} aria-label="Next">
             <SkipForward size={22} strokeWidth={1} />
           </button>
+          <button onClick={toggleLoop} aria-label="Loop" className={`radio-loop-btn ${looping ? 'active' : ''}`}>
+            <Repeat size={16} strokeWidth={1.5} />
+          </button>
         </div>
 
         <div className="radio-progress" ref={progressRef} onClick={handleProgressClick}>
@@ -88,10 +91,15 @@ export default function RadioPlayer({ player, artMap, rating, communityRating, o
           <span className="tabular">{formatTime(duration)}</span>
         </div>
 
-        <button className="radio-share-btn" onClick={handleShare} aria-label="Share">
-          <Share2 size={12} strokeWidth={1} />
-          <span>{copied ? 'URL COPIED TO CLIPBOARD!' : 'SHARE THIS TRACK'}</span>
-        </button>
+        <div className="radio-share-row">
+          <button className="radio-share-btn" onClick={handleShare} aria-label="Share">
+            <Share2 size={12} strokeWidth={1} />
+            <span>{copied ? 'URL COPIED TO CLIPBOARD!' : 'SHARE THIS TRACK'}</span>
+          </button>
+          {playCount > 0 && (
+            <span className="radio-play-count">{playCount} {playCount === 1 ? 'play' : 'plays'}</span>
+          )}
+        </div>
       </div>
     </div>
   )

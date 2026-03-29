@@ -3,6 +3,7 @@ import { useRoute } from './utils/router'
 import { useAudioPlayer } from './hooks/useAudioPlayer'
 import { useQueue } from './hooks/useQueue'
 import { useRatings } from './hooks/useRatings'
+import { usePlayCounts } from './hooks/usePlayCounts'
 import { shuffle } from './utils/shuffle'
 import { ChevronUp, ChevronDown } from 'lucide-react'
 import RadioPlayer from './components/RadioPlayer'
@@ -18,6 +19,7 @@ export default function App() {
   const route = useRoute()
   const queue = useQueue()
   const ratings = useRatings()
+  const playCounts = usePlayCounts()
 
   const [search, setSearch] = useState('')
   const [sortMode, setSortMode] = useState('random')
@@ -48,9 +50,11 @@ export default function App() {
     }
   }, [sortMode])
 
-  // Stable ref to getRating so sorting doesn't cause re-renders
+  // Stable refs so sorting doesn't cause re-renders
   const getRatingRef = useRef(ratings.getRating)
   getRatingRef.current = ratings.getRating
+  const getCountRef = useRef(playCounts.getCount)
+  getCountRef.current = playCounts.getCount
 
   // Filtered and sorted tracks for the scroll wheel
   const filteredTracks = useMemo(() => {
@@ -65,6 +69,8 @@ export default function App() {
       list.sort((a, b) => (getRatingRef.current(b.id) || 0) - (getRatingRef.current(a.id) || 0))
     } else if (sortMode === 'rating-asc') {
       list.sort((a, b) => (getRatingRef.current(a.id) || 0) - (getRatingRef.current(b.id) || 0))
+    } else if (sortMode === 'plays-desc') {
+      list.sort((a, b) => (getCountRef.current(b.id) || 0) - (getCountRef.current(a.id) || 0))
     }
 
     return list
@@ -81,6 +87,17 @@ export default function App() {
   const handleSelectTrack = useCallback((trackId) => {
     player.loadTrack(trackId, true)
   }, [player.loadTrack])
+
+  // Record play count when a track starts playing
+  useEffect(() => {
+    if (player.currentTrack && player.isPlaying) {
+      playCounts.recordPlay(player.currentTrack.id)
+    }
+  }, [player.currentTrack, player.isPlaying, playCounts.recordPlay])
+
+  const currentPlayCount = player.currentTrack
+    ? playCounts.getCount(player.currentTrack.id)
+    : 0
 
   const currentMyRating = player.currentTrack
     ? ratings.getMyRating(player.currentTrack.id)
@@ -118,6 +135,7 @@ export default function App() {
           rating={currentMyRating}
           communityRating={currentCommunityRating}
           onRate={handleRateCurrentTrack}
+          playCount={currentPlayCount}
         />
       </section>
 

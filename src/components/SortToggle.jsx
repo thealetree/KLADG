@@ -1,4 +1,4 @@
-import { Shuffle, ArrowUpNarrowWide, ArrowDownWideNarrow } from 'lucide-react'
+import { Shuffle, ArrowUpNarrowWide, ArrowDownWideNarrow, Headphones } from 'lucide-react'
 
 export default function SortToggle({ mode, onChange }) {
   return (
@@ -23,6 +23,13 @@ export default function SortToggle({ mode, onChange }) {
       >
         <ArrowUpNarrowWide size={13} strokeWidth={1} />
         Lowest
+      </button>
+      <button
+        className={mode === 'plays-desc' ? 'active' : ''}
+        onClick={() => onChange('plays-desc')}
+      >
+        <Headphones size={13} strokeWidth={1} />
+        Played
       </button>
     </div>
   )

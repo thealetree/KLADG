@@ -11,6 +11,8 @@ export function useAudioPlayer(tracks, getNextFromQueue, artMap) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
+  const [looping, setLooping] = useState(false)
+  const loopingRef = useRef(false)
 
   // Create audio element once
   if (!audioRef.current) {
@@ -115,6 +117,14 @@ export function useAudioPlayer(tracks, getNextFromQueue, artMap) {
     setCurrentTime(time)
   }, [])
 
+  const toggleLoop = useCallback(() => {
+    setLooping(prev => {
+      const next = !prev
+      loopingRef.current = next
+      return next
+    })
+  }, [])
+
   // Audio event listeners
   useEffect(() => {
     const audio = audioRef.current
@@ -149,7 +159,14 @@ export function useAudioPlayer(tracks, getNextFromQueue, artMap) {
         }
       }
     }
-    const onEnded = () => skipNext()
+    const onEnded = () => {
+      if (loopingRef.current) {
+        audio.currentTime = 0
+        audio.play().catch(() => {})
+      } else {
+        skipNext()
+      }
+    }
 
     audio.addEventListener('play', onPlay)
     audio.addEventListener('pause', onPause)
@@ -206,9 +223,11 @@ export function useAudioPlayer(tracks, getNextFromQueue, artMap) {
     isPlaying,
     currentTime,
     duration,
+    looping,
     play,
     pause,
     toggle,
+    toggleLoop,
     skipNext,
     skipPrev,
     seek,
