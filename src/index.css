@@ -489,15 +489,17 @@ input::placeholder {
 .scroll-wheel-item {
   position: absolute;
   top: 0;
-  left: 48px;
-  right: 48px;
+  left: 50%;
+  transform-origin: center center;
+  width: 100%;
+  max-width: 700px;
+  margin-left: -350px;
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 0 4px;
   height: 52px;
   will-change: transform, opacity;
-  transform-origin: center center;
   backface-visibility: hidden;
 }
 
@@ -541,8 +543,10 @@ input::placeholder {
 .scroll-wheel-focus-top,
 .scroll-wheel-focus-bottom {
   position: absolute;
-  left: 48px;
-  right: 48px;
+  left: 50%;
+  width: 100%;
+  max-width: 700px;
+  transform: translateX(-50%);
   height: 1px;
   background: rgba(255, 255, 255, 0.15);
   pointer-events: none;
@@ -640,14 +644,19 @@ input::placeholder {
   }
 
   .scroll-wheel-item {
-    left: 16px;
-    right: 16px;
+    left: 0;
+    max-width: 100%;
+    margin-left: 0;
+    padding: 0 16px;
   }
 
   .scroll-wheel-focus-top,
   .scroll-wheel-focus-bottom {
     left: 16px;
     right: 16px;
+    max-width: none;
+    width: auto;
+    transform: none;
   }
 
   .queue-panel {
