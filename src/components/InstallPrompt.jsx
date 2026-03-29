@@ -43,7 +43,7 @@ export default function InstallPrompt() {
     <div className="install-prompt-backdrop" onClick={handleDismiss}>
       <div className="install-prompt" onClick={(e) => e.stopPropagation()}>
         <p className="install-prompt-title">
-          For the best experience, add KLADG Radio to your home screen
+          Add KLADG Radio to your home screen to keep music playing when your phone sleeps
         </p>
         <p className="install-prompt-instructions">
           Tap the <span className="install-prompt-icon">
