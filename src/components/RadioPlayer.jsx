@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { SkipBack, Play, Pause, SkipForward, Share2 } from 'lucide-react'
 import RatingStars from './RatingStars'
 
@@ -11,6 +11,7 @@ function formatTime(seconds) {
 
 export default function RadioPlayer({ player, artMap, rating, onRate }) {
   const progressRef = useRef(null)
+  const [copied, setCopied] = useState(false)
   const { currentTrack, isPlaying, currentTime, duration, toggle, skipNext, skipPrev, seek } = player
 
   if (!currentTrack) return null
@@ -24,6 +25,8 @@ export default function RadioPlayer({ player, artMap, rating, onRate }) {
       navigator.share({ title: currentTrack.title, text: `Listen to "${currentTrack.title}" on KLADG Radio`, url })
     } else {
       navigator.clipboard.writeText(url)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
     }
   }
 
@@ -86,7 +89,7 @@ export default function RadioPlayer({ player, artMap, rating, onRate }) {
 
         <button className="radio-share-btn" onClick={handleShare} aria-label="Share">
           <Share2 size={12} strokeWidth={1} />
-          <span>SHARE THIS TRACK</span>
+          <span>{copied ? 'URL COPIED TO CLIPBOARD!' : 'SHARE THIS TRACK'}</span>
         </button>
       </div>
     </div>
