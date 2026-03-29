@@ -154,7 +154,7 @@ export default function ScrollWheel({ tracks, artMap, ratings, onSelect, onAddTo
       index: i,
       style: {
         transform: `translateY(${yPos}px) rotateX(${-rotateX}deg) scale(${scaleX}, ${scale})`,
-        opacity: Math.max(0.05, opacity),
+        opacity: isFocused ? 1 : Math.max(0.05, opacity),
       },
       isFocused,
     })
