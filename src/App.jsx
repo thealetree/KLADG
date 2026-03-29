@@ -88,12 +88,12 @@ export default function App() {
     player.loadTrack(trackId, true)
   }, [player.loadTrack])
 
-  // Record play count when a track starts playing
+  // Record play count after 50% of track has played
   useEffect(() => {
-    if (player.currentTrack && player.isPlaying) {
+    if (player.currentTrack && player.duration > 0 && player.currentTime >= player.duration * 0.5) {
       playCounts.recordPlay(player.currentTrack.id)
     }
-  }, [player.currentTrack, player.isPlaying, playCounts.recordPlay])
+  }, [player.currentTrack, player.currentTime, player.duration, playCounts.recordPlay])
 
   const currentPlayCount = player.currentTrack
     ? playCounts.getCount(player.currentTrack.id)
