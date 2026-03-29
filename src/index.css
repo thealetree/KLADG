@@ -615,6 +615,30 @@ input::placeholder {
   opacity: 0.8;
 }
 
+.wheel-item-download {
+  opacity: 0.25;
+  flex-shrink: 0;
+  padding: 4px;
+}
+
+.wheel-item-download:hover {
+  opacity: 0.7;
+}
+
+.wheel-item-download.cached {
+  opacity: 0.4;
+}
+
+.wheel-item-download.downloading {
+  opacity: 0.5;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.6; }
+}
+
 .wheel-item-add {
   opacity: 0.5;
   flex-shrink: 0;
@@ -769,6 +793,10 @@ input::placeholder {
 
   .radio-controls {
     align-items: center;
+    width: 100%;
+  }
+
+  .radio-share-row {
     width: 100%;
   }
 

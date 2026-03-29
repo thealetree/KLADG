@@ -5,7 +5,7 @@ export default function UpdateBanner() {
   const [waitingWorker, setWaitingWorker] = useState(null)
 
   useEffect(() => {
-    if (!('serviceWorker' in navigator)) return
+    if (!('serviceWorker' in navigator) || window.location.hostname === 'localhost') return
 
     navigator.serviceWorker.register('/sw.js').then((registration) => {
       // Check for waiting worker on load

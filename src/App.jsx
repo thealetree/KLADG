@@ -4,6 +4,7 @@ import { useAudioPlayer } from './hooks/useAudioPlayer'
 import { useQueue } from './hooks/useQueue'
 import { useRatings } from './hooks/useRatings'
 import { usePlayCounts } from './hooks/usePlayCounts'
+import { useOfflineCache } from './hooks/useOfflineCache'
 import { shuffle } from './utils/shuffle'
 import { ChevronUp, ChevronDown } from 'lucide-react'
 import RadioPlayer from './components/RadioPlayer'
@@ -36,6 +37,8 @@ export default function App() {
     }
     return map
   }, [])
+
+  const offlineCache = useOfflineCache(tracks, artMap)
 
   // Stable dequeue ref so audio player doesn't re-subscribe listeners
   const dequeueRef = useRef(queue.dequeue)
@@ -179,6 +182,7 @@ export default function App() {
               artMap={artMap}
               ratings={ratings}
               playCounts={playCounts}
+              offlineCache={offlineCache}
               onSelect={handleSelectTrack}
               onAddToQueue={queue.add}
               onRate={ratings.rate}

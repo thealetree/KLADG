@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
-import { Plus, Play } from 'lucide-react'
+import { Plus, Play, Download, Check } from 'lucide-react'
 import RatingStars from './RatingStars'
 
 const ITEM_HEIGHT = 52
@@ -10,7 +10,7 @@ const SNAP_THRESHOLD = 0.5
 const SNAP_STIFFNESS = 0.12
 const RUBBER_BAND = 0.3
 
-export default function ScrollWheel({ tracks, artMap, ratings, playCounts, onSelect, onAddToQueue, onRate }) {
+export default function ScrollWheel({ tracks, artMap, ratings, playCounts, offlineCache, onSelect, onAddToQueue, onRate }) {
   const containerRef = useRef(null)
   const scrollRef = useRef({ y: 0, velocity: 0 })
   const dragging = useRef(false)
@@ -210,6 +210,18 @@ export default function ScrollWheel({ tracks, artMap, ratings, playCounts, onSel
             >
               <Play size={14} strokeWidth={2} />
             </button>
+            {offlineCache && (
+              <button
+                className={`wheel-item-download ${offlineCache.isCached(track.id) ? 'cached' : ''} ${offlineCache.isDownloading(track.id) ? 'downloading' : ''}`}
+                onClick={(e) => { e.stopPropagation(); offlineCache.downloadTrack(track) }}
+                aria-label={offlineCache.isCached(track.id) ? 'Available offline' : 'Download for offline'}
+              >
+                {offlineCache.isCached(track.id)
+                  ? <Check size={12} strokeWidth={2.5} />
+                  : <Download size={12} strokeWidth={2} />
+                }
+              </button>
+            )}
             <button
               className="wheel-item-add"
               onClick={(e) => { e.stopPropagation(); onAddToQueue(track) }}
