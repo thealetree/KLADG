@@ -170,25 +170,24 @@ export function useAudioPlayer(tracks, getNextFromQueue, artMap) {
   useEffect(() => {
     if (!('mediaSession' in navigator)) return
 
-    navigator.mediaSession.setActionHandler('play', () => {
-      audioRef.current.play().catch(() => {})
-    })
-    navigator.mediaSession.setActionHandler('pause', () => {
-      audioRef.current.pause()
-    })
-    navigator.mediaSession.setActionHandler('previoustrack', skipPrev)
-    navigator.mediaSession.setActionHandler('nexttrack', skipNext)
-    // Remove default 10-second seek buttons
-    navigator.mediaSession.setActionHandler('seekbackward', null)
-    navigator.mediaSession.setActionHandler('seekforward', null)
+    const actions = {
+      play: () => audioRef.current.play().catch(() => {}),
+      pause: () => audioRef.current.pause(),
+      previoustrack: () => skipPrev(),
+      nexttrack: () => skipNext(),
+      // Override default 10-second seek with skip prev/next
+      seekbackward: () => skipPrev(),
+      seekforward: () => skipNext(),
+    }
+
+    for (const [action, handler] of Object.entries(actions)) {
+      try { navigator.mediaSession.setActionHandler(action, handler) } catch (_) {}
+    }
 
     return () => {
-      navigator.mediaSession.setActionHandler('play', null)
-      navigator.mediaSession.setActionHandler('pause', null)
-      navigator.mediaSession.setActionHandler('previoustrack', null)
-      navigator.mediaSession.setActionHandler('nexttrack', null)
-      navigator.mediaSession.setActionHandler('seekbackward', null)
-      navigator.mediaSession.setActionHandler('seekforward', null)
+      for (const action of Object.keys(actions)) {
+        try { navigator.mediaSession.setActionHandler(action, null) } catch (_) {}
+      }
     }
   }, [skipNext, skipPrev])
 
