@@ -48,6 +48,10 @@ export default function App() {
     }
   }, [sortMode])
 
+  // Stable ref to getRating so sorting doesn't cause re-renders
+  const getRatingRef = useRef(ratings.getRating)
+  getRatingRef.current = ratings.getRating
+
   // Filtered and sorted tracks for the scroll wheel
   const filteredTracks = useMemo(() => {
     let list = sortMode === 'random' ? randomOrder : [...tracks]
@@ -58,13 +62,14 @@ export default function App() {
     }
 
     if (sortMode === 'rating-desc') {
-      list.sort((a, b) => (ratings.getRating(b.id) || 0) - (ratings.getRating(a.id) || 0))
+      list.sort((a, b) => (getRatingRef.current(b.id) || 0) - (getRatingRef.current(a.id) || 0))
     } else if (sortMode === 'rating-asc') {
-      list.sort((a, b) => (ratings.getRating(a.id) || 0) - (ratings.getRating(b.id) || 0))
+      list.sort((a, b) => (getRatingRef.current(a.id) || 0) - (getRatingRef.current(b.id) || 0))
     }
 
     return list
-  }, [sortMode, randomOrder, search, ratings])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sortMode, randomOrder, search])
 
   // Handle route-based track loading
   useEffect(() => {
