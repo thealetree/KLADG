@@ -7,7 +7,7 @@ export function shuffle(array) {
   return a
 }
 
-export function pickRandom(tracks, history, maxSize = 20) {
+export function pickRandom(tracks, history, maxSize = Infinity) {
   const historySet = new Set(history)
   let pool = tracks.filter(t => !historySet.has(t.id))
 
