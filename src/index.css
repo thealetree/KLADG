@@ -503,6 +503,11 @@ input::placeholder {
 
 .scroll-wheel-item.focused {
   cursor: pointer;
+  opacity: 1 !important;
+}
+
+.scroll-wheel-item.focused .wheel-item-title {
+  font-weight: 400;
 }
 
 .wheel-item-art {
@@ -555,7 +560,7 @@ input::placeholder {
   position: absolute;
   left: 0;
   right: 0;
-  height: 80px;
+  height: 60px;
   pointer-events: none;
   z-index: 3;
 }
