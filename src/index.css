@@ -4,6 +4,29 @@
   --font: 'Manrope', sans-serif;
   --border: 1px solid #fff;
   --border-dim: 1px solid rgba(255, 255, 255, 0.15);
+  --fg-muted: rgba(255, 255, 255, 0.3);
+  --progress-track: rgba(255, 255, 255, 0.2);
+  --overlay: rgba(0, 0, 0, 0.8);
+  --bg-secondary: #111;
+  --border-active: rgba(255, 255, 255, 0.5);
+  --focus-line: rgba(255, 255, 255, 0.15);
+  --scrollbar: rgba(255, 255, 255, 0.2);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #fff;
+    --fg: #000;
+    --border: 1px solid #000;
+    --border-dim: 1px solid rgba(0, 0, 0, 0.15);
+    --fg-muted: rgba(0, 0, 0, 0.3);
+    --progress-track: rgba(0, 0, 0, 0.2);
+    --overlay: rgba(255, 255, 255, 0.85);
+    --bg-secondary: #eee;
+    --border-active: rgba(0, 0, 0, 0.5);
+    --focus-line: rgba(0, 0, 0, 0.15);
+    --scrollbar: rgba(0, 0, 0, 0.2);
+  }
 }
 
 *, *::before, *::after {
@@ -50,7 +73,7 @@ input {
 }
 
 input::placeholder {
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--fg-muted);
 }
 
 .tabular {
@@ -277,14 +300,14 @@ input::placeholder {
   left: 0;
   right: 0;
   height: 1px;
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--progress-track);
 }
 
 .radio-progress-fill {
   position: absolute;
   left: 0;
   height: 1px;
-  background: #fff;
+  background: var(--fg);
   transition: width 0.25s linear;
 }
 
@@ -293,7 +316,7 @@ input::placeholder {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--fg);
   transform: translateX(-50%);
   transition: left 0.25s linear;
 }
@@ -314,24 +337,24 @@ input::placeholder {
 }
 
 .radio-share-btn {
-  opacity: 0.25;
+  opacity: 0.4;
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 0.55rem;
+  font-size: 0.6rem;
   letter-spacing: 0.1em;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .radio-share-btn:hover {
-  opacity: 0.6;
+  opacity: 0.8;
 }
 
 .radio-play-count {
-  opacity: 0.2;
-  font-size: 0.55rem;
+  opacity: 0.35;
+  font-size: 0.6rem;
   letter-spacing: 0.1em;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 /* ── Rating Stars ── */
@@ -392,7 +415,7 @@ input::placeholder {
 .queue-list-full {
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,0.2) transparent;
+  scrollbar-color: var(--scrollbar) transparent;
 }
 
 .queue-item {
@@ -497,11 +520,11 @@ input::placeholder {
 
 .sort-toggle button.active {
   opacity: 1;
-  border-color: rgba(255, 255, 255, 0.5);
+  border-color: var(--border-active);
 }
 
 .sort-toggle button.active + button {
-  border-left-color: rgba(255, 255, 255, 0.5);
+  border-left-color: var(--border-active);
 }
 
 /* ── Scroll Wheel ── */
@@ -609,7 +632,7 @@ input::placeholder {
   left: 48px;
   right: 48px;
   height: 1px;
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--focus-line);
   pointer-events: none;
   z-index: 2;
 }
@@ -627,19 +650,19 @@ input::placeholder {
 
 .scroll-wheel-fade-top {
   top: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
+  background: linear-gradient(to bottom, var(--overlay) 0%, transparent 100%);
 }
 
 .scroll-wheel-fade-bottom {
   bottom: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+  background: linear-gradient(to top, var(--overlay) 0%, transparent 100%);
 }
 
 /* ── Install Prompt ── */
 .install-prompt-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: var(--overlay);
   z-index: 9999;
   display: flex;
   align-items: flex-end;
@@ -648,8 +671,8 @@ input::placeholder {
 }
 
 .install-prompt {
-  background: #111;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--bg-secondary);
+  border: var(--border-dim);
   padding: 24px;
   max-width: 360px;
   width: 100%;
@@ -683,11 +706,11 @@ input::placeholder {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   padding: 10px 32px;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border: var(--border-dim) !important;
 }
 
 .install-prompt-dismiss:hover {
-  border-color: rgba(255, 255, 255, 0.6) !important;
+  border-color: var(--border-active) !important;
 }
 
 /* ── Mobile ── */

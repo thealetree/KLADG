@@ -10,10 +10,10 @@ export default function RatingStars({ rating = 0, communityRating = 0, onRate, s
         const isMyRating = n <= rating
         const isCommunity = n <= communityRating && !isMyRating
 
-        const fill = isMyRating ? '#fff' : isCommunity ? 'rgba(255,255,255,0.3)' : 'none'
+        const fill = isMyRating ? 'currentColor' : isCommunity ? 'currentColor' : 'none'
         const starProps = { size: iconSize, strokeWidth: 1, fill }
-        if (isMyRating || isCommunity) {
-          starProps.stroke = isMyRating ? '#fff' : 'rgba(255,255,255,0.3)'
+        if (isCommunity) {
+          starProps.opacity = 0.3
         }
 
         return isInteractive ? (

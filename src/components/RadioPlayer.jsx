@@ -93,7 +93,7 @@ export default function RadioPlayer({ player, artMap, rating, communityRating, o
 
         <div className="radio-share-row">
           <button className="radio-share-btn" onClick={handleShare} aria-label="Share">
-            <Share2 size={12} strokeWidth={1} />
+            <Share2 size={12} strokeWidth={1.5} />
             <span>{copied ? 'URL COPIED TO CLIPBOARD!' : 'SHARE THIS TRACK'}</span>
           </button>
           <span className="radio-play-count">PLAYS: {playCount}</span>
