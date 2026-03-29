@@ -3,8 +3,8 @@ import { Plus } from 'lucide-react'
 import RatingStars from './RatingStars'
 
 const ITEM_HEIGHT = 52
-const VISIBLE_HALF = 5
-const MAX_ROTATION = 65
+const VISIBLE_HALF = 6
+const MAX_ROTATION = 45
 const FRICTION = 0.93
 const SNAP_THRESHOLD = 0.5
 const SNAP_STIFFNESS = 0.12
@@ -139,15 +139,15 @@ export default function ScrollWheel({ tracks, artMap, ratings, onSelect, onAddTo
   for (let i = centerIndex - VISIBLE_HALF; i <= centerIndex + VISIBLE_HALF; i++) {
     if (i < 0 || i >= tracks.length) continue
     const offset = i * ITEM_HEIGHT - scrollRef.current.y
-    const normalized = offset / (ITEM_HEIGHT * 3)
+    const normalized = offset / (ITEM_HEIGHT * VISIBLE_HALF)
     const clamped = Math.max(-1, Math.min(1, normalized))
     const rotateX = clamped * MAX_ROTATION
-    const opacity = 1 - Math.abs(clamped) * 0.75
-    const scale = 1 - Math.abs(clamped) * 0.12
+    const opacity = 1 - Math.abs(clamped) * 0.7
+    const scale = 1 - Math.abs(clamped) * 0.08
     const isFocused = Math.abs(offset) < ITEM_HEIGHT / 2
 
     const yPos = offset - ITEM_HEIGHT / 2
-    const scaleX = 1 - Math.abs(clamped) * 0.3
+    const scaleX = 1 - Math.abs(clamped) * 0.15
 
     visibleItems.push({
       track: tracks[i],
