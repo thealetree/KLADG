@@ -9,7 +9,7 @@ function formatTime(seconds) {
   return `${m}:${s.toString().padStart(2, '0')}`
 }
 
-export default function RadioPlayer({ player, artMap, rating, onRate }) {
+export default function RadioPlayer({ player, artMap, rating, communityRating, onRate }) {
   const progressRef = useRef(null)
   const [copied, setCopied] = useState(false)
   const { currentTrack, isPlaying, currentTime, duration, toggle, skipNext, skipPrev, seek } = player
@@ -57,6 +57,7 @@ export default function RadioPlayer({ player, artMap, rating, onRate }) {
         <div className="radio-rating-row">
           <RatingStars
             rating={rating}
+            communityRating={communityRating}
             onRate={onRate}
           />
         </div>

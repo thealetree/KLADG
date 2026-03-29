@@ -76,7 +76,11 @@ export default function App() {
     player.loadTrack(trackId, true)
   }, [player.loadTrack])
 
-  const currentRating = player.currentTrack
+  const currentMyRating = player.currentTrack
+    ? ratings.getMyRating(player.currentTrack.id)
+    : 0
+
+  const currentCommunityRating = player.currentTrack
     ? ratings.getRating(player.currentTrack.id)
     : 0
 
@@ -105,7 +109,8 @@ export default function App() {
         <RadioPlayer
           player={player}
           artMap={artMap}
-          rating={currentRating}
+          rating={currentMyRating}
+          communityRating={currentCommunityRating}
           onRate={handleRateCurrentTrack}
         />
       </section>

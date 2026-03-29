@@ -195,7 +195,8 @@ export default function ScrollWheel({ tracks, artMap, ratings, onSelect, onAddTo
             <span className="wheel-item-title">{track.title}</span>
             <div className="wheel-item-rating">
               <RatingStars
-                rating={ratings.getRating(track.id)}
+                rating={ratings.getMyRating(track.id)}
+                communityRating={ratings.getRating(track.id)}
                 onRate={onRate ? (score) => onRate(track.id, score) : undefined}
                 size="sm"
               />
