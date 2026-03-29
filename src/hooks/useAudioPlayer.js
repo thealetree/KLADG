@@ -178,19 +178,17 @@ export function useAudioPlayer(tracks, getNextFromQueue, artMap) {
     })
     navigator.mediaSession.setActionHandler('previoustrack', skipPrev)
     navigator.mediaSession.setActionHandler('nexttrack', skipNext)
-    navigator.mediaSession.setActionHandler('seekto', (details) => {
-      if (details.seekTime != null) {
-        audioRef.current.currentTime = details.seekTime
-        setCurrentTime(details.seekTime)
-      }
-    })
+    // Remove default 10-second seek buttons
+    navigator.mediaSession.setActionHandler('seekbackward', null)
+    navigator.mediaSession.setActionHandler('seekforward', null)
 
     return () => {
       navigator.mediaSession.setActionHandler('play', null)
       navigator.mediaSession.setActionHandler('pause', null)
       navigator.mediaSession.setActionHandler('previoustrack', null)
       navigator.mediaSession.setActionHandler('nexttrack', null)
-      navigator.mediaSession.setActionHandler('seekto', null)
+      navigator.mediaSession.setActionHandler('seekbackward', null)
+      navigator.mediaSession.setActionHandler('seekforward', null)
     }
   }, [skipNext, skipPrev])
 
