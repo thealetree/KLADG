@@ -52,7 +52,7 @@ export default function InstallPrompt() {
               <polyline points="16 6 12 2 8 6"/>
               <line x1="12" y1="2" x2="12" y2="15"/>
             </svg>
-          </span> share button, then <strong>&ldquo;Add to Home Screen&rdquo;</strong>
+          </span> share button, then <strong>&ldquo;View More&rdquo;</strong>, then <strong>&ldquo;Add to Home Screen&rdquo;</strong>
         </p>
         <button className="install-prompt-dismiss" onClick={handleDismiss}>
           Got it
