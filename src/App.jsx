@@ -195,7 +195,7 @@ export default function App() {
                   aria-label="Save all tracks for offline play"
                 >
                   <Download size={12} strokeWidth={2} />
-                  <span>Save for Offline Play</span>
+                  <span>Save ALL for Offline Play</span>
                 </button>
               )}
             </div>
