@@ -263,11 +263,18 @@ input::placeholder {
 .radio-rating-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   margin-bottom: 0;
 }
 
+.radio-rating-row .rating-stars {
+  display: inline-flex;
+  align-items: center;
+}
+
 .radio-fav-btn {
+  display: flex;
+  align-items: center;
   opacity: 0.3;
   transition: opacity 0.15s, color 0.15s;
 }
