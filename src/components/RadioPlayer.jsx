@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { SkipBack, Play, Pause, SkipForward, Share2, Repeat, CloudDownload } from 'lucide-react'
+import { SkipBack, Play, Pause, SkipForward, Share2, Repeat, CloudDownload, Heart } from 'lucide-react'
 import RatingStars from './RatingStars'
 
 function formatTime(seconds) {
@@ -9,7 +9,7 @@ function formatTime(seconds) {
   return `${m}:${s.toString().padStart(2, '0')}`
 }
 
-export default function RadioPlayer({ player, artMap, rating, communityRating, onRate, playCount, offlineCache }) {
+export default function RadioPlayer({ player, artMap, rating, communityRating, onRate, playCount, offlineCache, favorites }) {
   const progressRef = useRef(null)
   const [copied, setCopied] = useState(false)
   const { currentTrack, isPlaying, currentTime, duration, toggle, skipNext, skipPrev, seek, looping, toggleLoop } = player
@@ -55,6 +55,15 @@ export default function RadioPlayer({ player, artMap, rating, communityRating, o
         <p className="radio-title">{currentTrack.title}</p>
 
         <div className="radio-rating-row">
+          {favorites && currentTrack && (
+            <button
+              className={`radio-fav-btn ${favorites.isFavorite(currentTrack.id) ? 'active' : ''}`}
+              onClick={() => favorites.toggle(currentTrack.id)}
+              aria-label={favorites.isFavorite(currentTrack.id) ? 'Unfavorite' : 'Favorite'}
+            >
+              <Heart size={18} strokeWidth={1.5} fill={favorites.isFavorite(currentTrack.id) ? 'currentColor' : 'none'} />
+            </button>
+          )}
           <RatingStars
             rating={rating}
             communityRating={communityRating}

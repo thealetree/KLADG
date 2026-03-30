@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
-import { Plus, Play, CloudDownload } from 'lucide-react'
+import { Plus, Play, CloudDownload, Heart } from 'lucide-react'
 import RatingStars from './RatingStars'
 
 const ITEM_HEIGHT = 52
@@ -10,7 +10,7 @@ const SNAP_THRESHOLD = 0.5
 const SNAP_STIFFNESS = 0.12
 const RUBBER_BAND = 0.3
 
-export default function ScrollWheel({ tracks, artMap, ratings, playCounts, offlineCache, onSelect, onAddToQueue, onRate }) {
+export default function ScrollWheel({ tracks, artMap, ratings, playCounts, favorites, offlineCache, onSelect, onAddToQueue, onRate }) {
   const containerRef = useRef(null)
   const scrollRef = useRef({ y: 0, velocity: 0 })
   const dragging = useRef(false)
@@ -194,6 +194,15 @@ export default function ScrollWheel({ tracks, artMap, ratings, playCounts, offli
               draggable={false}
             />
             <span className="wheel-item-title">{track.title}</span>
+            {favorites && (
+              <button
+                className={`wheel-item-fav ${favorites.isFavorite(track.id) ? 'active' : ''}`}
+                onClick={(e) => { e.stopPropagation(); favorites.toggle(track.id) }}
+                aria-label={favorites.isFavorite(track.id) ? 'Unfavorite' : 'Favorite'}
+              >
+                <Heart size={12} strokeWidth={1.5} fill={favorites.isFavorite(track.id) ? 'currentColor' : 'none'} />
+              </button>
+            )}
             <div className="wheel-item-rating">
               <RatingStars
                 rating={ratings.getMyRating(track.id)}

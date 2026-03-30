@@ -5,6 +5,7 @@ import { useQueue } from './hooks/useQueue'
 import { useRatings } from './hooks/useRatings'
 import { usePlayCounts } from './hooks/usePlayCounts'
 import { useOfflineCache } from './hooks/useOfflineCache'
+import { useFavorites } from './hooks/useFavorites'
 import { shuffle } from './utils/shuffle'
 import { ChevronUp, ChevronDown, Download } from 'lucide-react'
 import RadioPlayer from './components/RadioPlayer'
@@ -22,6 +23,7 @@ export default function App() {
   const queue = useQueue()
   const ratings = useRatings()
   const playCounts = usePlayCounts()
+  const favorites = useFavorites()
 
   const [search, setSearch] = useState('')
   const [sortMode, setSortMode] = useState('random')
@@ -59,10 +61,16 @@ export default function App() {
   getRatingRef.current = ratings.getRating
   const getCountRef = useRef(playCounts.getCount)
   getCountRef.current = playCounts.getCount
+  const isFavoriteRef = useRef(favorites.isFavorite)
+  isFavoriteRef.current = favorites.isFavorite
 
   // Filtered and sorted tracks for the scroll wheel
   const filteredTracks = useMemo(() => {
     let list = sortMode === 'random' ? randomOrder : [...tracks]
+
+    if (sortMode === 'favorites') {
+      list = list.filter(t => isFavoriteRef.current(t.id))
+    }
 
     if (search) {
       const q = search.toLowerCase()
@@ -75,6 +83,8 @@ export default function App() {
       list.sort((a, b) => (getRatingRef.current(a.id) || 0) - (getRatingRef.current(b.id) || 0))
     } else if (sortMode === 'plays-desc') {
       list.sort((a, b) => (getCountRef.current(b.id) || 0) - (getCountRef.current(a.id) || 0))
+    } else if (sortMode === 'favorites') {
+      list.sort((a, b) => (getRatingRef.current(b.id) || 0) - (getRatingRef.current(a.id) || 0))
     }
 
     return list
@@ -141,6 +151,7 @@ export default function App() {
           onRate={handleRateCurrentTrack}
           playCount={currentPlayCount}
           offlineCache={offlineCache}
+          favorites={favorites}
         />
       </section>
 
@@ -181,10 +192,10 @@ export default function App() {
                 <button
                   className="download-all-btn"
                   onClick={() => offlineCache.downloadAll(filteredTracks)}
-                  aria-label="Download all tracks for offline"
+                  aria-label="Save all tracks for offline play"
                 >
                   <Download size={12} strokeWidth={2} />
-                  <span>Download All</span>
+                  <span>Save for Offline Play</span>
                 </button>
               )}
             </div>
@@ -193,6 +204,7 @@ export default function App() {
               artMap={artMap}
               ratings={ratings}
               playCounts={playCounts}
+              favorites={favorites}
               offlineCache={offlineCache}
               onSelect={handleSelectTrack}
               onAddToQueue={queue.add}
@@ -204,6 +216,7 @@ export default function App() {
         {drawerOpen && drawerTab === 'queue' && (
           <QueueView
             queue={queue.queue}
+            upcomingTracks={player.upcomingTracks}
             onRemove={queue.remove}
             onClear={queue.clear}
             artMap={artMap}

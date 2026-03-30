@@ -1,4 +1,4 @@
-import { Shuffle, ArrowUpNarrowWide, ArrowDownWideNarrow, Headphones } from 'lucide-react'
+import { Shuffle, ArrowUpNarrowWide, ArrowDownWideNarrow, Headphones, Heart } from 'lucide-react'
 
 export default function SortToggle({ mode, onChange }) {
   return (
@@ -30,6 +30,13 @@ export default function SortToggle({ mode, onChange }) {
       >
         <Headphones size={13} strokeWidth={1} />
         Played
+      </button>
+      <button
+        className={mode === 'favorites' ? 'active' : ''}
+        onClick={() => onChange('favorites')}
+      >
+        <Heart size={13} strokeWidth={1} />
+        Favorites
       </button>
     </div>
   )

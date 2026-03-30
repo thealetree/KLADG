@@ -261,7 +261,24 @@ input::placeholder {
 }
 
 .radio-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin-bottom: 0;
+}
+
+.radio-fav-btn {
+  opacity: 0.3;
+  transition: opacity 0.15s, color 0.15s;
+}
+
+.radio-fav-btn:hover {
+  opacity: 0.7;
+}
+
+.radio-fav-btn.active {
+  opacity: 0.8;
+  color: #e25555;
 }
 
 .radio-transport {
@@ -472,6 +489,15 @@ input::placeholder {
   opacity: 0.8;
 }
 
+.queue-separator {
+  border-top: var(--border-dim);
+  margin: 8px 0;
+}
+
+.queue-item-upcoming {
+  opacity: 0.4;
+}
+
 .queue-empty {
   font-size: 0.75rem;
   opacity: 0.3;
@@ -637,11 +663,27 @@ input::placeholder {
   flex-shrink: 0;
 }
 
-.wheel-item-plays {
+.wheel-item-fav {
   opacity: 0.25;
-  font-size: 0.5rem;
+  flex-shrink: 0;
+  padding: 2px;
+  transition: opacity 0.15s, color 0.15s;
+}
+
+.wheel-item-fav:hover {
+  opacity: 0.6;
+}
+
+.wheel-item-fav.active {
+  opacity: 0.7;
+  color: #e25555;
+}
+
+.wheel-item-plays {
+  opacity: 0.3;
+  font-size: 0.6rem;
   letter-spacing: 0.05em;
-  font-weight: 300;
+  font-weight: 400;
   flex-shrink: 0;
 }
 

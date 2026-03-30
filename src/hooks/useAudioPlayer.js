@@ -1,11 +1,13 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { pickRandom } from '../utils/shuffle'
+import { shuffle } from '../utils/shuffle'
 
 export function useAudioPlayer(tracks, getNextFromQueue, artMap) {
   const audioRef = useRef(null)
   const historyRef = useRef([])
   const historyIndexRef = useRef(-1)
   const lastTimeUpdate = useRef(0)
+  const deckRef = useRef([])
+  const deckIndexRef = useRef(0)
 
   const [currentTrack, setCurrentTrack] = useState(null)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -13,6 +15,7 @@ export function useAudioPlayer(tracks, getNextFromQueue, artMap) {
   const [duration, setDuration] = useState(0)
   const [looping, setLooping] = useState(false)
   const loopingRef = useRef(false)
+  const [upcomingTracks, setUpcomingTracks] = useState([])
 
   // Create audio element once
   if (!audioRef.current) {
@@ -66,6 +69,34 @@ export function useAudioPlayer(tracks, getNextFromQueue, artMap) {
     }
   }, [tracks, getUrl, updateMediaSession])
 
+  // Build/rebuild shuffled deck
+  const rebuildDeck = useCallback(() => {
+    const shuffled = shuffle(tracks)
+    deckRef.current = shuffled
+    deckIndexRef.current = 0
+    setUpcomingTracks(shuffled.slice(0, 20))
+  }, [tracks])
+
+  // Initialize deck on first load
+  useEffect(() => {
+    if (tracks.length > 0 && deckRef.current.length === 0) {
+      rebuildDeck()
+    }
+  }, [tracks, rebuildDeck])
+
+  const advanceDeck = useCallback(() => {
+    deckIndexRef.current++
+    // Re-shuffle when deck is exhausted
+    if (deckIndexRef.current >= deckRef.current.length) {
+      const shuffled = shuffle(tracks)
+      deckRef.current = shuffled
+      deckIndexRef.current = 0
+    }
+    const track = deckRef.current[deckIndexRef.current]
+    setUpcomingTracks(deckRef.current.slice(deckIndexRef.current + 1, deckIndexRef.current + 21))
+    return track
+  }, [tracks])
+
   const skipNext = useCallback(() => {
     if (tracks.length === 0) return
 
@@ -77,11 +108,11 @@ export function useAudioPlayer(tracks, getNextFromQueue, artMap) {
       return
     }
 
-    const track = pickRandom(tracks, historyRef.current)
+    const track = advanceDeck()
     historyRef.current.push(track.id)
     historyIndexRef.current = historyRef.current.length - 1
     loadTrack(track.id, true)
-  }, [tracks, loadTrack, getNextFromQueue])
+  }, [tracks, loadTrack, getNextFromQueue, advanceDeck])
 
   const skipPrev = useCallback(() => {
     if (historyIndexRef.current > 0) {
@@ -210,13 +241,13 @@ export function useAudioPlayer(tracks, getNextFromQueue, artMap) {
 
   // Load initial random track (without playing)
   useEffect(() => {
-    if (tracks.length > 0 && !currentTrack) {
-      const track = pickRandom(tracks, historyRef.current)
+    if (tracks.length > 0 && !currentTrack && deckRef.current.length > 0) {
+      const track = advanceDeck()
       historyRef.current.push(track.id)
       historyIndexRef.current = 0
       loadTrack(track.id, false)
     }
-  }, [tracks, currentTrack, loadTrack])
+  }, [tracks, currentTrack, loadTrack, advanceDeck])
 
   return {
     currentTrack,
@@ -224,6 +255,7 @@ export function useAudioPlayer(tracks, getNextFromQueue, artMap) {
     currentTime,
     duration,
     looping,
+    upcomingTracks,
     play,
     pause,
     toggle,
